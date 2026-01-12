@@ -31,14 +31,18 @@ interface ChatPanelProps {
 
 export default function ChatPanel({ isExpanded, onToggleExpand, onUpdateRightPanel }: ChatPanelProps) {
   const { navigateToApp, updateJobDraft, setPipelineHighlight } = useRecruitOS();
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content: 'I\'m your Hiring Assistant. How can I help you today?',
-      timestamp: new Date(),
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  useEffect(() => {
+    setMessages([
+      {
+        id: '1',
+        role: 'assistant',
+        content: 'I\'m your Hiring Assistant. How can I help you today?',
+        timestamp: new Date(),
+      },
+    ]);
+  }, []);
   const [input, setInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);

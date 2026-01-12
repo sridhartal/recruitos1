@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { GlassCard, PillInput, ToastContainer, useToast } from '@/components/DesignSystem';
 import { Upload, FileText, Loader2, Users, FolderKanban, BarChart3 } from 'lucide-react';
 import JobEditorCard from '@/components/JobEditor/JobEditorCard';
@@ -21,14 +21,18 @@ interface ChatWindowProps {
 }
 
 export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content: 'Hello! I\'m 1WrkOS Bot. I can help you create job descriptions, find candidates, and manage your recruitment workflow. Upload a conversation file (.txt) or describe the job requirements.',
-      timestamp: new Date(),
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  useEffect(() => {
+    setMessages([
+      {
+        id: '1',
+        role: 'assistant',
+        content: 'Hello! I\'m 1WrkOS Bot. I can help you create job descriptions, find candidates, and manage your recruitment workflow. Upload a conversation file (.txt) or describe the job requirements.',
+        timestamp: new Date(),
+      },
+    ]);
+  }, []);
   const [input, setInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);

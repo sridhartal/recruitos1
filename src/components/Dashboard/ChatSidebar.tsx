@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GlassCard } from '@/components/DesignSystem';
 import { MessageSquare, Plus, Search, ChevronLeft, ChevronRight, Clock, Users, FileEdit, Calendar, FileText } from 'lucide-react';
 
@@ -47,26 +47,31 @@ export default function ChatSidebar({
   ];
 
   // Mock chat history - in real app, this would come from a service/API
-  const [chatHistory] = useState<ChatHistory[]>([
-    {
-      id: 'chat-1',
-      title: 'Senior Python Developer',
-      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
-      preview: 'Looking for a senior Python developer...',
-    },
-    {
-      id: 'chat-2',
-      title: 'Frontend Engineer Role',
-      timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
-      preview: 'Need a React developer with 5+ years...',
-    },
-    {
-      id: 'chat-3',
-      title: 'Full Stack Position',
-      timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
-      preview: 'Full stack engineer required...',
-    },
-  ]);
+  // Mock chat history - in real app, this would come from a service/API
+  const [chatHistory, setChatHistory] = useState<ChatHistory[]>([]);
+
+  useEffect(() => {
+    setChatHistory([
+      {
+        id: 'chat-1',
+        title: 'Senior Python Developer',
+        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+        preview: 'Looking for a senior Python developer...',
+      },
+      {
+        id: 'chat-2',
+        title: 'Frontend Engineer Role',
+        timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+        preview: 'Need a React developer with 5+ years...',
+      },
+      {
+        id: 'chat-3',
+        title: 'Full Stack Position',
+        timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
+        preview: 'Full stack engineer required...',
+      },
+    ]);
+  }, []);
 
   const filteredHistory = chatHistory.filter((chat) =>
     chat.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

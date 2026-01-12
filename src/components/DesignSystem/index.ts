@@ -6,3 +6,4 @@ export { DataRow } from './DataRow';
 export { GatedOverlay } from './GatedOverlay';
 export { ToastContainer, useToast } from './Toast';
 export type { Toast, ToastType } from './Toast';
+export { Logo } from './Logo';

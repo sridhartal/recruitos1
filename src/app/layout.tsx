@@ -5,7 +5,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'RecruitOS - AI Recruiter Workbench',
+  title: '1WrkOS - AI Recruiter Workbench',
   description: 'Chat-centric workspace that unifies the entire recruitment lifecycle',
 }
 

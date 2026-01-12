@@ -15,11 +15,18 @@ export const GlassCard = ({
   children: React.ReactNode; 
   className?: string;
 }) => (
-  <div className={cn(
-    "backdrop-blur-xl bg-white/70 border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.05)]",
-    "rounded-3xl p-6 transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]",
-    className
-  )}>
+  <div 
+    className={cn(
+      "backdrop-blur-xl rounded-3xl p-6 transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]",
+      className
+    )}
+    style={{
+      background: 'var(--glass-surface)',
+      border: 'var(--glass-border)',
+      backdropFilter: 'var(--glass-blur)',
+      boxShadow: '0 8px 32px rgba(0,0,0,0.05)'
+    }}
+  >
     {children}
   </div>
 );

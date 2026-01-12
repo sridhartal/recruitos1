@@ -2,16 +2,17 @@
 
 import { useState } from 'react';
 import { AuroraBackground } from '@/components/DesignSystem';
-import ChatSidebar from './ChatSidebar';
-import ChatWindow from './ChatWindow';
-import MinimizedChat from './MinimizedChat';
+import { ArrowLeft } from 'lucide-react';
+import AppMenu from './AppMenu';
+import ChatPanel from './ChatPanel';
+import MainDashboard from './MainDashboard';
 import CandidateDashboard from '@/components/Candidates/CandidateDashboard';
 import CandidateFilters, { FilterState } from '@/components/Candidates/CandidateFilters';
 
 export default function Dashboard() {
   const [selectedApp, setSelectedApp] = useState<string | null>(null);
+  const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [rightPanelContent, setRightPanelContent] = useState<React.ReactNode>(null);
-  const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [candidateFilters, setCandidateFilters] = useState<FilterState>({
     stage: 'all',
     minScore: 0,
@@ -22,24 +23,9 @@ export default function Dashboard() {
     skills: [],
   });
 
-  const handleNewChat = () => {
-    setCurrentChatId(null);
-    setRightPanelContent(null);
-    setSelectedApp(null);
-  };
-
-  const handleSelectChat = (chatId: string) => {
-    setCurrentChatId(chatId);
-    setSelectedApp(null);
-  };
-
   const handleSelectApp = (appId: string | null) => {
     setSelectedApp(appId);
     setRightPanelContent(null);
-  };
-
-  const handleMaximizeChat = () => {
-    setSelectedApp(null);
   };
 
   const renderAppView = () => {
@@ -76,99 +62,124 @@ export default function Dashboard() {
     }
   };
 
+  // If chat is expanded, show full screen chat
+  if (isChatExpanded) {
+    return (
+      <AuroraBackground>
+        <ChatPanel
+          isExpanded={true}
+          onToggleExpand={() => setIsChatExpanded(false)}
+          onUpdateRightPanel={setRightPanelContent}
+        />
+      </AuroraBackground>
+    );
+  }
+
   return (
     <AuroraBackground>
-      {selectedApp ? (
-        // App Layout: Left (Chat History + Chat Window), Center (App with Tabs), Right (Filters)
-        <div className="flex h-screen">
-          {/* Left: Chat History (Top) + Chat Window (Bottom) */}
-          <div className="w-80 flex flex-col flex-shrink-0 border-r border-white/40 bg-white/50 backdrop-blur-sm">
-            {/* Chat History - Top */}
-            <div className="flex-1 flex flex-col min-h-0 border-b border-white/40">
-              <ChatSidebar
-                onNewChat={handleNewChat}
-                onSelectChat={handleSelectChat}
-                currentChatId={currentChatId}
-                selectedApp={selectedApp}
-                onSelectApp={handleSelectApp}
-                showChatHistoryOnly={true}
-              />
-            </div>
-            
-            {/* Chat Window - Bottom */}
-            <div className="h-96 flex-shrink-0">
-              <MinimizedChat
-                onMaximize={handleMaximizeChat}
-                onUpdateRightPanel={() => {}}
-              />
-            </div>
-          </div>
-
-          {/* Center: Full Screen App with Tabs */}
-          <div className="flex-1 flex flex-col min-w-0 bg-white/30 backdrop-blur-sm">
-            {/* Tabs - Only show for candidates for now */}
-            {selectedApp === 'candidates' && (
-              <div className="flex-shrink-0 border-b border-white/40 bg-white/50 backdrop-blur-sm">
-                <div className="flex items-center gap-1 px-4 py-2">
-                  <button className="px-4 py-2 rounded-lg text-sm font-medium bg-[#1A1A1A] text-white shadow-sm">
-                    All Candidates
-                  </button>
-                  <button className="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-white/50 hover:text-gray-900 transition-all">
-                    Shortlisted
-                  </button>
-                  <button className="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-white/50 hover:text-gray-900 transition-all">
-                    Interviews
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* App Content */}
-            <div className="flex-1 overflow-y-auto min-h-0">
-              {renderAppView()}
-            </div>
-          </div>
-
-          {/* Right: Filters Panel */}
-          {renderFilters() && (
-            <div className="w-80 flex-shrink-0 border-l border-white/40 bg-white/50 backdrop-blur-sm">
-              {renderFilters()}
-            </div>
-          )}
-        </div>
-      ) : (
-        // Default Layout: Left Sidebar, Center Chat, Right Panel
-        <div className="flex h-screen">
-          {/* Left: Collapsible Sidebar with Chat History and Apps */}
-          <ChatSidebar 
-            onNewChat={handleNewChat}
-            onSelectChat={handleSelectChat}
-            currentChatId={currentChatId}
+      <div className="flex h-screen">
+        {/* Left: App Menu (Collapsible) - Hidden when app is selected */}
+        {!selectedApp ? (
+          <AppMenu
             selectedApp={selectedApp}
             onSelectApp={handleSelectApp}
           />
-          
-          {/* Center: Chat Window */}
-          <div className="flex-1 flex flex-col min-w-0">
-            <div className="w-full h-full flex flex-col items-center">
-              <div className="w-full max-w-4xl h-full flex flex-col">
-                <ChatWindow 
-                  onUpdateRightPanel={setRightPanelContent}
-                />
-              </div>
+        ) : (
+          // Collapsed menu when app is selected
+          <div className="w-16 p-2 flex-shrink-0">
+            <div 
+              className="h-full backdrop-blur-xl rounded-2xl border p-2 flex flex-col items-center"
+              style={{
+                background: 'var(--glass-surface)',
+                border: 'var(--glass-border)',
+                backdropFilter: 'var(--glass-blur)'
+              }}
+            >
+              <button
+                onClick={() => setSelectedApp(null)}
+                className="p-2 rounded-md hover:bg-white/50 transition-colors mb-2"
+                title="Back to dashboard"
+              >
+                <ArrowLeft size={18} style={{ color: 'var(--text-secondary)' }} />
+              </button>
             </div>
           </div>
-          
-          {/* Right Panel - Only show when content exists */}
-          {rightPanelContent && (
-            <div className="w-[600px] p-2 flex-shrink-0">
-              <div className="h-full bg-white/70 backdrop-blur-xl rounded-2xl border border-white/50 p-4 overflow-y-auto">
-                {rightPanelContent}
+        )}
+
+        {/* Center: Main Content */}
+        <div className="flex-1 flex flex-col min-w-0">
+          {selectedApp ? (
+            <>
+              {/* App View with Tabs */}
+              <div 
+                className="flex-1 flex flex-col min-w-0 backdrop-blur-sm"
+                style={{ background: 'var(--glass-surface)' }}
+              >
+                {/* Tabs */}
+                {selectedApp === 'candidates' && (
+                  <div 
+                    className="flex-shrink-0 border-b backdrop-blur-sm"
+                    style={{
+                      borderColor: 'rgba(255, 255, 255, 0.5)',
+                      background: 'var(--glass-surface)'
+                    }}
+                  >
+                    <div className="flex items-center gap-1 px-4 py-2">
+                      <button 
+                        className="px-4 py-2 rounded-lg text-sm font-medium text-white shadow-sm"
+                        style={{ backgroundColor: 'var(--primary-brand)' }}
+                      >
+                        All Candidates
+                      </button>
+                      <button 
+                        className="px-4 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/50"
+                        style={{ color: 'var(--text-secondary)' }}
+                      >
+                        Shortlisted
+                      </button>
+                      <button 
+                        className="px-4 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/50"
+                        style={{ color: 'var(--text-secondary)' }}
+                      >
+                        Interviews
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* App Content */}
+                <div className="flex-1 overflow-y-auto min-h-0">
+                  {renderAppView()}
+                </div>
               </div>
-            </div>
+
+              {/* Right: Filters Panel (only for candidates) */}
+              {renderFilters() && (
+                <div 
+                  className="w-80 flex-shrink-0 border-l backdrop-blur-sm"
+                  style={{
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    background: 'var(--glass-surface)',
+                    backdropFilter: 'var(--glass-blur)'
+                  }}
+                >
+                  {renderFilters()}
+                </div>
+              )}
+            </>
+          ) : (
+            /* Landing Dashboard */
+            <MainDashboard onSelectApp={handleSelectApp} />
           )}
         </div>
-      )}
+
+        {/* Right: Chat Panel (Always visible) */}
+        <ChatPanel
+          isExpanded={false}
+          onToggleExpand={() => setIsChatExpanded(true)}
+          onUpdateRightPanel={setRightPanelContent}
+        />
+      </div>
     </AuroraBackground>
   );
 }

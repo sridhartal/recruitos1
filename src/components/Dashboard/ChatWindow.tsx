@@ -24,7 +24,7 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
     {
       id: '1',
       role: 'assistant',
-      content: 'Hello! I\'m RecruitOS Bot. I can help you create job descriptions, find candidates, and manage your recruitment workflow. Upload a conversation file (.txt) or describe the job requirements.',
+      content: 'Hello! I\'m 1WrkOS Bot. I can help you create job descriptions, find candidates, and manage your recruitment workflow. Upload a conversation file (.txt) or describe the job requirements.',
       timestamp: new Date(),
     },
   ]);
@@ -429,8 +429,8 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
       {/* Chat Header */}
       <div className="p-4 pb-2 flex-shrink-0">
         <GlassCard className="p-3">
-          <h2 className="text-base font-semibold text-gray-900 leading-tight">
-            Ask RecruitOS
+          <h2 className="text-base font-semibold leading-tight" style={{ color: 'var(--text-primary)' }}>
+            Ask 1WrkOS
           </h2>
         </GlassCard>
       </div>
@@ -442,15 +442,24 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
             key={message.id}
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} relative z-10`}
           >
-            <div className={`max-w-[75%] p-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.05)] transition-all duration-300 ${
-              message.role === 'user'
-                ? 'bg-[#1A1A1A] text-white border border-white/20 backdrop-blur-xl'
-                : 'bg-white/70 backdrop-blur-xl border border-white/50'
-            }`}>
-              <p className={`text-xs leading-relaxed ${message.role === 'user' ? 'text-white' : 'text-gray-900'}`}>
+            <div 
+              className="max-w-[75%] p-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.05)] transition-all duration-300"
+              style={{
+                backgroundColor: message.role === 'user' ? 'var(--primary-brand)' : 'var(--glass-surface)',
+                color: message.role === 'user' ? 'white' : 'var(--text-primary)',
+                border: message.role === 'user' ? 'none' : 'var(--glass-border)',
+                backdropFilter: message.role === 'user' ? 'none' : 'var(--glass-blur)'
+              }}
+            >
+              <p className="text-xs leading-relaxed">
                 {message.content}
               </p>
-              <p className={`text-[10px] opacity-70 mt-1.5 ${message.role === 'user' ? 'text-white/70' : 'text-gray-500'}`}>
+              <p 
+                className="text-[10px] opacity-70 mt-1.5"
+                style={{ 
+                  color: message.role === 'user' ? 'rgba(255,255,255,0.7)' : 'var(--text-secondary)' 
+                }}
+              >
                 {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </p>
             </div>
@@ -474,7 +483,18 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
                 setMessages((prev) => [...prev, userMessage]);
                 await processUserMessage(query);
               }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/70 hover:bg-white border border-white/50 text-xs font-medium text-gray-700 hover:text-gray-900 transition-all hover:shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all hover:shadow-sm"
+              style={{
+                background: 'var(--glass-surface)',
+                borderColor: 'rgba(255, 255, 255, 0.5)',
+                color: 'var(--text-primary)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--glass-surface)';
+              }}
             >
               <Users size={14} className="flex-shrink-0" />
               <span>Find Candidates</span>
@@ -491,7 +511,18 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
                 setMessages((prev) => [...prev, userMessage]);
                 await processUserMessage(query);
               }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/70 hover:bg-white border border-white/50 text-xs font-medium text-gray-700 hover:text-gray-900 transition-all hover:shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all hover:shadow-sm"
+              style={{
+                background: 'var(--glass-surface)',
+                borderColor: 'rgba(255, 255, 255, 0.5)',
+                color: 'var(--text-primary)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--glass-surface)';
+              }}
             >
               <FolderKanban size={14} className="flex-shrink-0" />
               <span>Pipeline</span>
@@ -508,7 +539,18 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
                 setMessages((prev) => [...prev, userMessage]);
                 await processUserMessage(query);
               }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/70 hover:bg-white border border-white/50 text-xs font-medium text-gray-700 hover:text-gray-900 transition-all hover:shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all hover:shadow-sm"
+              style={{
+                background: 'var(--glass-surface)',
+                borderColor: 'rgba(255, 255, 255, 0.5)',
+                color: 'var(--text-primary)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--glass-surface)';
+              }}
             >
               <BarChart3 size={14} className="flex-shrink-0" />
               <span>Insights</span>
@@ -530,13 +572,19 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
           />
           <label
             htmlFor="file-upload"
-            className="flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-sm border border-gray-200 hover:bg-gray-50 cursor-pointer transition-all hover:shadow-md flex-shrink-0"
+            className="flex items-center justify-center w-10 h-10 rounded-full shadow-sm border cursor-pointer transition-all hover:shadow-md flex-shrink-0"
+            style={{
+              background: 'var(--glass-surface)',
+              borderColor: 'rgba(255, 255, 255, 0.5)'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'var(--glass-surface)'}
             title="Upload .txt file"
           >
             {isProcessing ? (
-              <Loader2 size={16} className="text-gray-600 animate-spin" />
+              <Loader2 size={16} style={{ color: 'var(--text-secondary)' }} className="animate-spin" />
             ) : (
-              <Upload size={16} className="text-gray-600" />
+              <Upload size={16} style={{ color: 'var(--text-secondary)' }} />
             )}
           </label>
           <div className="flex-1 min-w-0">

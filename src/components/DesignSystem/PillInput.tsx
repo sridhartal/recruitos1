@@ -37,12 +37,25 @@ export const PillInput = ({
         onChange={onChange}
         onKeyPress={onKeyPress}
         disabled={disabled}
-        className="w-full h-12 pl-5 pr-12 bg-white rounded-full shadow-sm border-none ring-1 ring-gray-100 text-sm text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-gray-200 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full h-12 pl-5 pr-12 rounded-full shadow-sm border-none ring-1 text-sm focus:ring-2 focus:outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        style={{
+          background: 'var(--glass-surface)',
+          ringColor: 'rgba(255, 255, 255, 0.5)',
+          color: 'var(--text-primary)',
+          placeholderColor: 'var(--text-secondary)'
+        }}
+        onFocus={(e) => {
+          e.target.style.ringColor = 'var(--primary-brand)';
+        }}
+        onBlur={(e) => {
+          e.target.style.ringColor = 'rgba(255, 255, 255, 0.5)';
+        }}
       />
       <button 
         onClick={onSearchClick}
         disabled={disabled}
-        className="absolute right-1.5 top-1.5 h-9 w-9 bg-[#1A1A1A] rounded-full flex items-center justify-center text-white shadow-md transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+        className="absolute right-1.5 top-1.5 h-9 w-9 rounded-full flex items-center justify-center text-white shadow-md transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+        style={{ backgroundColor: 'var(--accent-teal)' }}
       >
         <IconComponent size={16} className="flex-shrink-0" />
       </button>

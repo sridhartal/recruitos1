@@ -26,8 +26,8 @@ export default function Sidebar({ selectedApp, onSelectApp }: SidebarProps) {
     <div className="w-52 p-2 flex-shrink-0">
       <GlassCard className="h-full flex flex-col">
         <div className="px-3 py-3 border-b border-white/40">
-          <h1 className="text-lg font-bold text-gray-900 leading-tight">RecruitOS</h1>
-          <p className="text-xs text-gray-500 mt-0.5 leading-tight">AI Recruiter Workbench</p>
+          <h1 className="text-lg font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>1WrkOS</h1>
+          <p className="text-xs mt-0.5 leading-tight" style={{ color: 'var(--text-secondary)' }}>AI Recruiter Workbench</p>
         </div>
         
         <nav className="flex-1 px-2 py-2 overflow-y-auto">

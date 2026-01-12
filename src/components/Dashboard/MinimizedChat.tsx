@@ -22,7 +22,7 @@ export default function MinimizedChat({ onMaximize, onUpdateRightPanel }: Minimi
     {
       id: '1',
       role: 'assistant',
-      content: 'Hello! I\'m RecruitOS Bot. How can I help you?',
+      content: 'Hello! I\'m 1WrkOS Bot. How can I help you?',
       timestamp: new Date(),
     },
   ]);
@@ -53,7 +53,7 @@ export default function MinimizedChat({ onMaximize, onUpdateRightPanel }: Minimi
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <MessageSquare size={16} className="text-gray-600" />
-              <h3 className="text-sm font-semibold text-gray-900">Ask RecruitOS</h3>
+              <h3 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Ask 1WrkOS</h3>
             </div>
             <button
               onClick={onMaximize}
@@ -72,11 +72,13 @@ export default function MinimizedChat({ onMaximize, onUpdateRightPanel }: Minimi
               key={message.id}
               className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div className={`max-w-[85%] p-2 rounded-lg text-[10px] ${
-                message.role === 'user'
-                  ? 'bg-[#1A1A1A] text-white'
-                  : 'bg-white/70 text-gray-900'
-              }`}>
+              <div 
+                className="max-w-[85%] p-2 rounded-lg text-[10px]"
+                style={{
+                  backgroundColor: message.role === 'user' ? 'var(--primary-brand)' : 'var(--glass-surface)',
+                  color: message.role === 'user' ? 'white' : 'var(--text-primary)'
+                }}
+              >
                 <p className="leading-relaxed">{message.content}</p>
               </div>
             </div>

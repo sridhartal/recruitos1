@@ -1,4 +1,4 @@
-# RecruitOS - AI Recruiter Workbench
+# 1WrkOS - AI Recruiter Workbench
 
 A chat-centric workspace that unifies the entire recruitment lifecycle. Instead of switching between an ATS, email, and job boards, recruiters chat with an AI that invokes specific "micro-apps" to handle tasks—from intake to offer letter.
 
@@ -35,9 +35,9 @@ npm install
 cp .env.example .env
 ```
 
-3. Add your OpenAI API key to `.env`:
+3. Add your Gemini API key to `.env`:
 ```
-OPENAI_API_KEY=your_api_key_here
+GEMINI_API_KEY=your_api_key_here
 ```
 
 Note: The app will work without an API key for development (it uses mock data), but AI features require a valid key.
@@ -95,7 +95,7 @@ The `mock_data/` folder contains:
 
 - **Frontend:** Next.js 14, React, TypeScript, Tailwind CSS
 - **Backend:** Next.js API Routes
-- **AI:** OpenAI GPT-4 API
+- **AI:** Google Gemini API
 - **Database:** Local JSON files (prototype)
 
 ## Development

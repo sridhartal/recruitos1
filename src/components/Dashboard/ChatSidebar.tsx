@@ -180,7 +180,7 @@ export default function ChatSidebar({
       <GlassCard className="h-full flex flex-col">
         {/* Header */}
         <div className="px-3 py-2.5 border-b border-white/40 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-gray-900">RecruitOS</h2>
+          <h2 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>1WrkOS</h2>
           <button
             onClick={() => setIsCollapsed(true)}
             className="p-1 rounded-md hover:bg-white/50 transition-colors"

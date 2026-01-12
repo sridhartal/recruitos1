@@ -103,7 +103,7 @@ export default function JobEditorCard({
   return (
     <GlassCard className="w-full">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-base font-semibold text-gray-900 leading-tight">Job Description</h3>
+        <h3 className="text-base font-semibold leading-tight" style={{ color: 'var(--text-primary)' }}>Job Description</h3>
         {!isEditing ? (
           <div className="flex items-center gap-2">
             {onMatchCandidates && (
@@ -126,7 +126,10 @@ export default function JobEditorCard({
             )}
             <button
               onClick={handleEdit}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-gray-600 hover:text-gray-900 transition-colors rounded-full hover:bg-white/50"
+              className="flex items-center gap-1.5 px-3 py-1.5 transition-colors rounded-full hover:bg-white/50"
+              style={{ color: 'var(--text-secondary)' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
             >
               <Edit2 size={16} className="flex-shrink-0" />
               <span className="text-sm font-medium">Edit</span>
@@ -136,7 +139,10 @@ export default function JobEditorCard({
           <div className="flex items-center gap-2">
             <button
               onClick={handleCancel}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-gray-600 hover:text-gray-900 transition-colors rounded-full hover:bg-white/50"
+              className="flex items-center gap-1.5 px-3 py-1.5 transition-colors rounded-full hover:bg-white/50"
+              style={{ color: 'var(--text-secondary)' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
             >
               <X size={16} className="flex-shrink-0" />
               <span className="text-sm font-medium">Cancel</span>
@@ -154,7 +160,7 @@ export default function JobEditorCard({
       <div className="space-y-3">
         {/* Job Title */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-primary)' }}>
             Job Title
           </label>
           {isEditing ? (
@@ -162,49 +168,67 @@ export default function JobEditorCard({
               type="text"
               value={jobDescription.title}
               onChange={(e) => handleFieldChange('title', e.target.value)}
-              className="w-full px-4 py-2.5 rounded-full border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-sm"
+              className="w-full px-4 py-2.5 rounded-full border focus:ring-2 focus:outline-none text-sm"
+              style={{
+                background: 'var(--glass-surface)',
+                borderColor: 'rgba(255, 255, 255, 0.5)',
+                color: 'var(--text-primary)'
+              }}
             />
           ) : (
-            <p className="text-gray-900 font-medium text-sm leading-relaxed">{jobDescription.title}</p>
+            <p className="font-medium text-sm leading-relaxed" style={{ color: 'var(--text-primary)' }}>{jobDescription.title}</p>
           )}
         </div>
 
         {/* Seniority */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-primary)' }}>
             Seniority Level
           </label>
           {isEditing ? (
             <select
               value={jobDescription.seniority}
               onChange={(e) => handleFieldChange('seniority', e.target.value)}
-              className="w-full px-4 py-2.5 rounded-full border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-sm bg-white"
+              className="w-full px-4 py-2.5 rounded-full border focus:ring-2 focus:outline-none text-sm"
+              style={{
+                background: 'var(--glass-surface)',
+                borderColor: 'rgba(255, 255, 255, 0.5)',
+                color: 'var(--text-primary)'
+              }}
             >
               <option value="Junior">Junior</option>
               <option value="Mid">Mid</option>
               <option value="Senior">Senior</option>
             </select>
           ) : (
-            <p className="text-gray-900 text-sm leading-relaxed">{jobDescription.seniority}</p>
+            <p className="text-sm leading-relaxed" style={{ color: 'var(--text-primary)' }}>{jobDescription.seniority}</p>
           )}
         </div>
 
         {/* Skills */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-primary)' }}>
             Skills
           </label>
           <div className="flex flex-wrap gap-2 mb-3">
             {jobDescription.skills.map((skill, index) => (
               <span
                 key={index}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/50 rounded-full text-sm text-gray-900 border border-white/50"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm border"
+                style={{
+                  background: 'var(--glass-surface)',
+                  color: 'var(--text-primary)',
+                  borderColor: 'rgba(255, 255, 255, 0.5)'
+                }}
               >
                 <span>{skill}</span>
                 {isEditing && (
                   <button
                     onClick={() => handleRemoveSkill(skill)}
-                    className="text-gray-400 hover:text-gray-900 transition-colors flex-shrink-0"
+                    className="transition-colors flex-shrink-0"
+                    style={{ color: 'var(--text-secondary)' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                     aria-label={`Remove ${skill}`}
                   >
                     <X size={14} />
@@ -221,11 +245,17 @@ export default function JobEditorCard({
                 onChange={(e) => setNewSkill(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Add skill..."
-                className="flex-1 px-4 py-2.5 rounded-full border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-sm"
+                className="flex-1 px-4 py-2.5 rounded-full border focus:ring-2 focus:outline-none text-sm"
+                style={{
+                  background: 'var(--glass-surface)',
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  color: 'var(--text-primary)'
+                }}
               />
               <button
                 onClick={handleAddSkill}
-                className="px-4 py-2.5 bg-gray-100 rounded-full text-gray-700 hover:bg-gray-200 transition-colors text-sm font-medium"
+                className="px-4 py-2.5 rounded-full transition-opacity text-sm font-medium text-white hover:opacity-90"
+                style={{ backgroundColor: 'var(--accent-teal)' }}
               >
                 Add
               </button>
@@ -236,7 +266,7 @@ export default function JobEditorCard({
         {/* Salary */}
         {jobDescription.salary && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-primary)' }}>
               Salary Range
             </label>
             {isEditing ? (
@@ -244,10 +274,15 @@ export default function JobEditorCard({
                 type="text"
                 value={jobDescription.salary}
                 onChange={(e) => handleFieldChange('salary', e.target.value)}
-                className="w-full px-4 py-2.5 rounded-full border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-sm"
+                className="w-full px-4 py-2.5 rounded-full border focus:ring-2 focus:outline-none text-sm"
+                style={{
+                  background: 'var(--glass-surface)',
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  color: 'var(--text-primary)'
+                }}
               />
             ) : (
-              <p className="text-gray-900 text-sm leading-relaxed">{jobDescription.salary}</p>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-primary)' }}>{jobDescription.salary}</p>
             )}
           </div>
         )}
@@ -255,7 +290,7 @@ export default function JobEditorCard({
         {/* Location */}
         {jobDescription.location && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-primary)' }}>
               Location
             </label>
             {isEditing ? (
@@ -263,10 +298,15 @@ export default function JobEditorCard({
                 type="text"
                 value={jobDescription.location}
                 onChange={(e) => handleFieldChange('location', e.target.value)}
-                className="w-full px-4 py-2.5 rounded-full border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-sm"
+                className="w-full px-4 py-2.5 rounded-full border focus:ring-2 focus:outline-none text-sm"
+                style={{
+                  background: 'var(--glass-surface)',
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  color: 'var(--text-primary)'
+                }}
               />
             ) : (
-              <p className="text-gray-900 text-sm leading-relaxed">{jobDescription.location}</p>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-primary)' }}>{jobDescription.location}</p>
             )}
           </div>
         )}
@@ -274,7 +314,7 @@ export default function JobEditorCard({
         {/* Experience */}
         {jobDescription.experience && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-primary)' }}>
               Experience Required
             </label>
             {isEditing ? (
@@ -282,10 +322,15 @@ export default function JobEditorCard({
                 type="text"
                 value={jobDescription.experience}
                 onChange={(e) => handleFieldChange('experience', e.target.value)}
-                className="w-full px-4 py-2.5 rounded-full border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-sm"
+                className="w-full px-4 py-2.5 rounded-full border focus:ring-2 focus:outline-none text-sm"
+                style={{
+                  background: 'var(--glass-surface)',
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  color: 'var(--text-primary)'
+                }}
               />
             ) : (
-              <p className="text-gray-900 text-sm leading-relaxed">{jobDescription.experience}</p>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-primary)' }}>{jobDescription.experience}</p>
             )}
           </div>
         )}

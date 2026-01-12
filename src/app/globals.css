@@ -2,26 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Background Gradient */
+  --bg-gradient-start: #F3E5F5; /* Lilac */
+  --bg-gradient-end: #E0F7FA;   /* Aqua */
+  
+  /* Text Colors */
+  --text-primary: #2B1C50;      /* Deep Purple (Replacing Black) */
+  --text-secondary: #64748B;    /* Muted Slate */
+  
+  /* Brand Colors */
+  --primary-brand: #6C5CE7;     /* Violet for User Bubbles */
+  --accent-teal: #00D2C1;       /* Teal for Buttons/Icons */
+  
+  /* Glassmorphism Surface */
+  --glass-surface: rgba(255, 255, 255, 0.75);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.5);
+  --glass-blur: blur(16px);
+}
+
 @layer base {
   body {
-    @apply bg-gray-50 text-gray-900;
+    background: linear-gradient(120deg, var(--bg-gradient-start), #fff 50%, var(--bg-gradient-end));
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
   }
 }
 
 @layer components {
   .glass-surface {
-    @apply bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)];
+    background: var(--glass-surface);
+    backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    @apply rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)];
   }
   
   .pill-input {
-    @apply rounded-full border-0 ring-2 ring-gray-200 focus:ring-[#1A1A1A] focus:ring-2;
+    @apply rounded-full border-0 ring-2;
+    ring-color: rgba(100, 116, 139, 0.2);
+  }
+  
+  .pill-input:focus {
+    ring-color: var(--primary-brand);
+    @apply ring-2;
   }
   
   .btn-primary {
-    @apply bg-[#1A1A1A] text-white rounded-full font-medium px-6 py-2 hover:opacity-90 transition-opacity;
+    background: var(--accent-teal);
+    @apply text-white rounded-full font-medium px-6 py-2 hover:opacity-90 transition-opacity;
   }
   
   .btn-secondary {
-    @apply bg-transparent text-gray-600 rounded-full font-medium px-6 py-2 hover:bg-gray-100 transition-colors;
+    @apply bg-transparent rounded-full font-medium px-6 py-2;
+    color: var(--text-secondary);
+  }
+  
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.5);
+    color: var(--text-primary);
   }
 }

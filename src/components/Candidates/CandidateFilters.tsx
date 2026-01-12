@@ -72,12 +72,15 @@ export default function CandidateFilters({ onFilterChange }: CandidateFiltersPro
     <div className="h-full flex flex-col p-4">
       <div className="flex items-center justify-between mb-4 flex-shrink-0">
         <div className="flex items-center gap-2">
-          <Filter size={16} className="text-gray-600" />
-          <h3 className="text-sm font-semibold text-gray-900">Filters</h3>
+          <Filter size={16} style={{ color: 'var(--accent-teal)' }} />
+          <h3 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Filters</h3>
         </div>
         <button
           onClick={clearFilters}
-          className="text-xs text-gray-500 hover:text-gray-700 transition-colors"
+          className="text-xs transition-colors"
+          style={{ color: 'var(--text-secondary)' }}
+          onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+          onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
         >
           Clear All
         </button>
@@ -86,13 +89,18 @@ export default function CandidateFilters({ onFilterChange }: CandidateFiltersPro
       <div className="flex-1 overflow-y-auto space-y-4">
         {/* Stage Filter */}
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-primary)' }}>
             Stage
           </label>
           <select
             value={filters.stage}
             onChange={(e) => updateFilter('stage', e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-xs bg-white"
+            className="w-full px-3 py-2 rounded-lg border focus:ring-2 focus:outline-none text-xs"
+            style={{
+              background: 'var(--glass-surface)',
+              borderColor: 'rgba(255, 255, 255, 0.5)',
+              color: 'var(--text-primary)'
+            }}
           >
             <option value="all">All Stages</option>
             <option value="Applied">Applied</option>
@@ -118,18 +126,28 @@ export default function CandidateFilters({ onFilterChange }: CandidateFiltersPro
                 max="100"
                 value={filters.minScore}
                 onChange={(e) => updateFilter('minScore', Number(e.target.value))}
-                className="w-full px-3 py-1.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-xs bg-white"
+                className="w-full px-3 py-1.5 rounded-lg border focus:ring-2 focus:outline-none text-xs"
+                style={{
+                  background: 'var(--glass-surface)',
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  color: 'var(--text-primary)'
+                }}
               />
             </div>
             <div>
-              <label className="text-[10px] text-gray-500 mb-1 block">Max</label>
+              <label className="text-[10px] mb-1 block" style={{ color: 'var(--text-secondary)' }}>Max</label>
               <input
                 type="number"
                 min="0"
                 max="100"
                 value={filters.maxScore}
                 onChange={(e) => updateFilter('maxScore', Number(e.target.value))}
-                className="w-full px-3 py-1.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-xs bg-white"
+                className="w-full px-3 py-1.5 rounded-lg border focus:ring-2 focus:outline-none text-xs"
+                style={{
+                  background: 'var(--glass-surface)',
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  color: 'var(--text-primary)'
+                }}
               />
             </div>
           </div>
@@ -137,7 +155,7 @@ export default function CandidateFilters({ onFilterChange }: CandidateFiltersPro
 
         {/* Location Filter */}
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-primary)' }}>
             Location
           </label>
           <input
@@ -145,36 +163,51 @@ export default function CandidateFilters({ onFilterChange }: CandidateFiltersPro
             placeholder="Filter by location..."
             value={filters.location}
             onChange={(e) => updateFilter('location', e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-xs bg-white"
+            className="w-full px-3 py-2 rounded-lg border focus:ring-2 focus:outline-none text-xs"
+            style={{
+              background: 'var(--glass-surface)',
+              borderColor: 'rgba(255, 255, 255, 0.5)',
+              color: 'var(--text-primary)'
+            }}
           />
         </div>
 
         {/* Experience Range */}
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-primary)' }}>
             Experience (years)
           </label>
           <div className="space-y-2">
             <div>
-              <label className="text-[10px] text-gray-500 mb-1 block">Min</label>
+              <label className="text-[10px] mb-1 block" style={{ color: 'var(--text-secondary)' }}>Min</label>
               <input
                 type="number"
                 min="0"
                 max="20"
                 value={filters.experienceMin}
                 onChange={(e) => updateFilter('experienceMin', Number(e.target.value))}
-                className="w-full px-3 py-1.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-xs bg-white"
+                className="w-full px-3 py-1.5 rounded-lg border focus:ring-2 focus:outline-none text-xs"
+                style={{
+                  background: 'var(--glass-surface)',
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  color: 'var(--text-primary)'
+                }}
               />
             </div>
             <div>
-              <label className="text-[10px] text-gray-500 mb-1 block">Max</label>
+              <label className="text-[10px] mb-1 block" style={{ color: 'var(--text-secondary)' }}>Max</label>
               <input
                 type="number"
                 min="0"
                 max="20"
                 value={filters.experienceMax}
                 onChange={(e) => updateFilter('experienceMax', Number(e.target.value))}
-                className="w-full px-3 py-1.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-xs bg-white"
+                className="w-full px-3 py-1.5 rounded-lg border focus:ring-2 focus:outline-none text-xs"
+                style={{
+                  background: 'var(--glass-surface)',
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  color: 'var(--text-primary)'
+                }}
               />
             </div>
           </div>
@@ -182,7 +215,7 @@ export default function CandidateFilters({ onFilterChange }: CandidateFiltersPro
 
         {/* Skills Filter */}
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-2">
+          <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-primary)' }}>
             Skills
           </label>
           <div className="flex gap-2 mb-2">
@@ -192,11 +225,17 @@ export default function CandidateFilters({ onFilterChange }: CandidateFiltersPro
               value={newSkill}
               onChange={(e) => setNewSkill(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && addSkill()}
-              className="flex-1 px-3 py-1.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-gray-300 focus:outline-none text-xs bg-white"
+              className="flex-1 px-3 py-1.5 rounded-lg border focus:ring-2 focus:outline-none text-xs"
+              style={{
+                background: 'var(--glass-surface)',
+                borderColor: 'rgba(255, 255, 255, 0.5)',
+                color: 'var(--text-primary)'
+              }}
             />
             <button
               onClick={addSkill}
-              className="px-3 py-1.5 bg-[#1A1A1A] text-white rounded-lg hover:bg-black transition-colors text-xs font-medium"
+              className="px-3 py-1.5 text-white rounded-lg hover:opacity-90 transition-opacity text-xs font-medium"
+              style={{ backgroundColor: 'var(--accent-teal)' }}
             >
               Add
             </button>
@@ -205,12 +244,19 @@ export default function CandidateFilters({ onFilterChange }: CandidateFiltersPro
             {filters.skills.map((skill) => (
               <span
                 key={skill}
-                className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-[10px]"
+                className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px]"
+                style={{
+                  background: 'rgba(0, 210, 193, 0.1)',
+                  color: 'var(--text-primary)'
+                }}
               >
                 {skill}
                 <button
                   onClick={() => removeSkill(skill)}
-                  className="hover:text-red-600 transition-colors"
+                  className="transition-colors"
+                  style={{ color: 'var(--text-secondary)' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#ef4444'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                 >
                   <X size={12} />
                 </button>

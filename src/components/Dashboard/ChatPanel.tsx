@@ -46,7 +46,17 @@ export default function ChatPanel({ isExpanded, onToggleExpand, onUpdateRightPan
   const [input, setInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const { toasts, success, error, loading, removeToast } = useToast();
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [messages, isProcessing]);
 
   const processUserMessage = async (userInput: string) => {
     const lowerInput = userInput.toLowerCase();
@@ -228,7 +238,10 @@ export default function ChatPanel({ isExpanded, onToggleExpand, onUpdateRightPan
         </div>
 
         {/* Chat Area */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent flex flex-col">
+        <div
+          ref={scrollRef}
+          className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent flex flex-col"
+        >
           {/* Disclaimer / Intro */}
           <div className="text-center py-4 flex-shrink-0">
             <p className="text-[10px] text-gray-400 uppercase tracking-widest font-semibold mb-2">Today</p>
@@ -242,8 +255,8 @@ export default function ChatPanel({ isExpanded, onToggleExpand, onUpdateRightPan
               >
                 <div
                   className={`max-w-[85%] p-3.5 rounded-2xl text-sm shadow-sm ${message.role === 'user'
-                      ? 'bg-purple-600 text-white rounded-tr-sm'
-                      : 'bg-white text-gray-700 border border-gray-100 rounded-tl-sm'
+                    ? 'bg-purple-600 text-white rounded-tr-sm'
+                    : 'bg-white text-gray-700 border border-gray-100 rounded-tl-sm'
                     }`}
                 >
                   <p className="leading-relaxed">{message.content}</p>
@@ -263,7 +276,7 @@ export default function ChatPanel({ isExpanded, onToggleExpand, onUpdateRightPan
               </div>
             )}
 
-            <div ref={(el) => { el?.scrollIntoView({ behavior: "smooth" }); }} />
+            {/* Scroll target removed - handled by container scrollTo */}
           </div>
         </div>
 

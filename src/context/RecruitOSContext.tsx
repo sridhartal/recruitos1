@@ -7,6 +7,8 @@ export interface JobDraft {
     title: string;
     skills: string[];
     salary?: string;
+    minSalary?: string;
+    maxSalary?: string;
     location?: string;
     experience?: string;
 }

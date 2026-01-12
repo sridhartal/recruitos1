@@ -5,6 +5,7 @@ import { PillInput, ToastContainer, useToast } from '@/components/DesignSystem';
 import { Upload, Loader2, MessageSquare, Maximize2, Minimize2, Search, Clock, Plus, Users, Mic, Paperclip, Sparkles } from 'lucide-react';
 import { JobDescription } from '@/types/job';
 import { useRecruitOS } from '@/context/RecruitOSContext';
+import { useDemo } from '@/context/DemoContext';
 
 type ChatState = 'idle' | 'processing';
 
@@ -31,6 +32,7 @@ interface ChatPanelProps {
 
 export default function ChatPanel({ isExpanded, onToggleExpand, onUpdateRightPanel }: ChatPanelProps) {
   const { navigateToApp, updateJobDraft, setPipelineHighlight } = useRecruitOS();
+  const { handleChatCommand, messageQueue, consumeMessage } = useDemo();
   const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
@@ -50,6 +52,20 @@ export default function ChatPanel({ isExpanded, onToggleExpand, onUpdateRightPan
   const { toasts, success, error, loading, removeToast } = useToast();
 
   useEffect(() => {
+    if (messageQueue.length > 0) {
+      const msg = consumeMessage();
+      if (msg) {
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: msg,
+          timestamp: new Date()
+        }]);
+      }
+    }
+  }, [messageQueue, consumeMessage]);
+
+  useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({
         top: scrollRef.current.scrollHeight,
@@ -64,6 +80,20 @@ export default function ChatPanel({ isExpanded, onToggleExpand, onUpdateRightPan
 
     // Simulate AI thinking "typing" effect
     await new Promise(resolve => setTimeout(resolve, 800));
+
+    // DEMO INTERCEPT
+    const demoResponse = await handleChatCommand(userInput);
+    if (demoResponse) {
+      const assistantMessage: Message = {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: demoResponse,
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, assistantMessage]);
+      setIsProcessing(false);
+      return;
+    }
 
     // CO-PILOT LOGIC: Command Parser
 
@@ -170,7 +200,7 @@ export default function ChatPanel({ isExpanded, onToggleExpand, onUpdateRightPan
 
       <button
         onClick={() => {
-          setInput('Create New Requisition');
+          setInput('Create a job');
           handleSend();
         }}
         className="w-full flex items-center gap-3 p-3 bg-white hover:bg-purple-50 border border-gray-200 hover:border-purple-200 rounded-xl transition-all shadow-sm group text-left"
@@ -179,7 +209,7 @@ export default function ChatPanel({ isExpanded, onToggleExpand, onUpdateRightPan
           <Plus size={16} />
         </div>
         <div>
-          <span className="text-sm font-semibold text-gray-800 block">Create Requisition</span>
+          <span className="text-sm font-semibold text-gray-800 block">Create a job</span>
           <span className="text-[10px] text-gray-500">Draft new role with AI</span>
         </div>
       </button>

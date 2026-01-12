@@ -6,26 +6,18 @@ import { ArrowLeft } from 'lucide-react';
 import AppMenu from './AppMenu';
 import ChatPanel from './ChatPanel';
 import MainDashboard from './MainDashboard';
-import CandidateDashboard from '@/components/Candidates/CandidateDashboard';
-import CandidateFilters, { FilterState } from '@/components/Candidates/CandidateFilters';
+import CandidateTable from '@/components/Candidates/CandidateTable';
 import JobDashboard from '@/components/Jobs/JobDashboard';
 import SchedulerDashboard from '@/components/Scheduler/SchedulerDashboard';
 import PipelineBoard from '@/components/Pipeline/PipelineBoard';
 import { RecruitOSProvider, useRecruitOS, AppType } from '@/context/RecruitOSContext';
+import { AnimatePresence, motion } from 'framer-motion';
 
 function DashboardContent() {
   const { activeApp, navigateToApp, viewMode } = useRecruitOS();
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [rightPanelContent, setRightPanelContent] = useState<React.ReactNode>(null);
-  const [candidateFilters, setCandidateFilters] = useState<FilterState>({
-    stage: 'all',
-    minScore: 0,
-    maxScore: 100,
-    location: '',
-    experienceMin: 0,
-    experienceMax: 20,
-    skills: [],
-  });
+
 
   const handleSelectApp = (appId: string | null) => {
     // Map string IDs to AppType
@@ -47,11 +39,7 @@ function DashboardContent() {
     switch (activeApp) {
       case 'CANDIDATES':
         return (
-          <CandidateDashboard
-            onClose={() => navigateToApp('DASHBOARD')}
-            filters={candidateFilters}
-            onFiltersChange={setCandidateFilters}
-          />
+          <CandidateTable />
         );
       case 'JOBS':
         return (
@@ -73,11 +61,8 @@ function DashboardContent() {
   const renderFilters = () => {
     switch (activeApp) {
       case 'CANDIDATES':
-        return (
-          <CandidateFilters
-            onFilterChange={setCandidateFilters}
-          />
-        );
+        // CandidateTable handles its own filtering
+        return null;
       default:
         return null;
     }
@@ -170,7 +155,18 @@ function DashboardContent() {
 
                 {/* App Content */}
                 <div className="flex-1 overflow-y-auto min-h-0 pb-32">
-                  {renderAppView()}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeApp}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.3 }}
+                      className="h-full"
+                    >
+                      {renderAppView()}
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
               </div>
 
@@ -205,10 +201,14 @@ function DashboardContent() {
   );
 }
 
+import { DemoProvider } from '@/context/DemoContext';
+
 export default function Dashboard() {
   return (
     <RecruitOSProvider>
-      <DashboardContent />
+      <DemoProvider>
+        <DashboardContent />
+      </DemoProvider>
     </RecruitOSProvider>
   );
 }

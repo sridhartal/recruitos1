@@ -1,0 +1,47 @@
+[
+  {
+    "id": "hm-001",
+    "name": "Sarah Chen",
+    "title": "VP of Engineering",
+    "department": "Engineering",
+    "email": "sarah.chen@company.com",
+    "phone": "+1-555-0101",
+    "company": "TechCorp Inc."
+  },
+  {
+    "id": "hm-002",
+    "name": "Michael Rodriguez",
+    "title": "Head of Product",
+    "department": "Product",
+    "email": "michael.r@company.com",
+    "phone": "+1-555-0102",
+    "company": "TechCorp Inc."
+  },
+  {
+    "id": "hm-003",
+    "name": "Emily Watson",
+    "title": "Director of Marketing",
+    "department": "Marketing",
+    "email": "emily.w@company.com",
+    "phone": "+1-555-0103",
+    "company": "TechCorp Inc."
+  },
+  {
+    "id": "hm-004",
+    "name": "David Kim",
+    "title": "CTO",
+    "department": "Engineering",
+    "email": "david.kim@company.com",
+    "phone": "+1-555-0104",
+    "company": "TechCorp Inc."
+  },
+  {
+    "id": "hm-005",
+    "name": "Lisa Anderson",
+    "title": "VP of Sales",
+    "department": "Sales",
+    "email": "lisa.a@company.com",
+    "phone": "+1-555-0105",
+    "company": "TechCorp Inc."
+  }
+]

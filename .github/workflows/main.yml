@@ -1,0 +1,30 @@
+name: Main Workflow
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Setup project
+      run: |
+        echo "Setup project dependencies"
+        # Add your setup commands here
+    
+    - name: Run tests
+      run: |
+        echo "Run tests"
+        # Add your test commands here
+    
+    - name: Build
+      run: |
+        echo "Build project"
+        # Add your build commands here

@@ -1,0 +1,60 @@
+# Workflow Documentation
+
+## Overview
+This document describes the workflow processes for the Talent Team Tool project.
+
+## Development Workflow
+
+### Branch Strategy
+- `main`: Production-ready code
+- `develop`: Integration branch for features
+- `feature/*`: Feature branches
+- `bugfix/*`: Bug fix branches
+- `hotfix/*`: Critical production fixes
+
+### Commit Guidelines
+- Use clear, descriptive commit messages
+- Follow conventional commit format when possible
+- Reference issue numbers in commits
+
+### Code Review Process
+1. Create pull request from feature branch
+2. Ensure all tests pass
+3. Request review from team members
+4. Address feedback and update PR
+5. Merge after approval
+
+## CI/CD Pipeline
+
+### Build Process
+1. Checkout code
+2. Install dependencies
+3. Run linters
+4. Run tests
+5. Build application
+6. Deploy (if on main branch)
+
+### Testing Requirements
+- All unit tests must pass
+- Code coverage threshold: 80%
+- Integration tests for critical paths
+- E2E tests for user flows
+
+## Release Process
+1. Update version numbers
+2. Update changelog
+3. Create release branch
+4. Run full test suite
+5. Deploy to staging
+6. Perform QA testing
+7. Deploy to production
+8. Tag release
+
+## Daily Workflow
+1. Pull latest changes from develop
+2. Create feature branch
+3. Implement changes
+4. Write/update tests
+5. Commit changes
+6. Push and create PR
+7. Address review feedback

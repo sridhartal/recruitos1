@@ -1,0 +1,26 @@
+=== Sample Conversation 1 ===
+Hiring Manager: Hi, I need to hire a Senior Python Developer for our backend team.
+Recruiter: Great! Can you tell me more about the role?
+Hiring Manager: We need someone with at least 5 years of experience in Python, Django, and PostgreSQL. They should also know Docker and AWS.
+Recruiter: What's the salary range?
+Hiring Manager: We're offering between $120,000 and $150,000 depending on experience.
+Recruiter: Any specific location preference?
+Hiring Manager: Remote is fine, but we prefer US-based candidates.
+
+=== Sample Conversation 2 ===
+Hiring Manager: I'm looking for a Full Stack Developer.
+Recruiter: What technologies are you looking for?
+Hiring Manager: React, TypeScript, Node.js, and MongoDB. About 3-4 years of experience.
+Recruiter: What's the compensation?
+Hiring Manager: $100,000 to $130,000.
+Recruiter: Any other requirements?
+Hiring Manager: They should be comfortable with GraphQL and have experience with microservices architecture.
+
+=== Sample Conversation 3 ===
+Hiring Manager: We need a Frontend Engineer for our design system team.
+Recruiter: Tell me more about the role.
+Hiring Manager: Strong React skills, TypeScript, and experience with Tailwind CSS. We're building a component library.
+Recruiter: Experience level?
+Hiring Manager: Mid-level, around 4-5 years. Salary is $110,000 to $140,000.
+Recruiter: Location?
+Hiring Manager: Hybrid - San Francisco office, but flexible.

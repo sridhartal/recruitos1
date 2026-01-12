@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .glass-surface {
+    @apply bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)];
+  }
+  
+  .pill-input {
+    @apply rounded-full border-0 ring-2 ring-gray-200 focus:ring-[#1A1A1A] focus:ring-2;
+  }
+  
+  .btn-primary {
+    @apply bg-[#1A1A1A] text-white rounded-full font-medium px-6 py-2 hover:opacity-90 transition-opacity;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent text-gray-600 rounded-full font-medium px-6 py-2 hover:bg-gray-100 transition-colors;
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "linkedin": {
+    "name": "LinkedIn",
+    "endpoint": "https://api.linkedin.com/v2/jobs",
+    "enabled": true,
+    "simulationDelay": 2000
+  },
+  "naukri": {
+    "name": "Naukri",
+    "endpoint": "https://api.naukri.com/v1/jobs",
+    "enabled": true,
+    "simulationDelay": 2500
+  },
+  "indeed": {
+    "name": "Indeed",
+    "endpoint": "https://api.indeed.com/v1/jobs",
+    "enabled": true,
+    "simulationDelay": 3000
+  },
+  "glassdoor": {
+    "name": "Glassdoor",
+    "endpoint": "https://api.glassdoor.com/v1/jobs",
+    "enabled": false,
+    "simulationDelay": 2000
+  }
+}

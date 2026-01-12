@@ -7,7 +7,7 @@ import { Users, FileEdit, Calendar, FileText, ChevronLeft, ChevronRight, Setting
 interface AppItem {
   id: string;
   name: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: React.ComponentType<{ size?: number | string; className?: string; style?: React.CSSProperties }>;
 }
 
 interface AppMenuProps {
@@ -43,11 +43,10 @@ export default function AppMenu({ selectedApp, onSelectApp }: AppMenuProps) {
               <button
                 key={app.id}
                 onClick={() => onSelectApp(isSelected ? null : app.id)}
-                className={`p-2 rounded-md mb-1 transition-colors ${
-                  isSelected
-                    ? 'bg-[#1A1A1A] text-white'
-                    : 'text-gray-600 hover:bg-white/50'
-                }`}
+                className={`p-2 rounded-md mb-1 transition-colors ${isSelected
+                  ? 'bg-[#1A1A1A] text-white'
+                  : 'text-gray-600 hover:bg-white/50'
+                  }`}
                 title={app.name}
               >
                 <IconComponent size={18} />
@@ -87,24 +86,23 @@ export default function AppMenu({ selectedApp, onSelectApp }: AppMenuProps) {
                 <button
                   key={app.id}
                   onClick={() => onSelectApp(isSelected ? null : app.id)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
-                    isSelected
-                      ? 'text-white shadow-md'
-                      : 'hover:bg-white/70 hover:shadow-sm'
-                  }`}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${isSelected
+                    ? 'text-white shadow-md'
+                    : 'hover:bg-white/70 hover:shadow-sm'
+                    }`}
                   style={{
                     backgroundColor: isSelected ? 'var(--primary-brand)' : 'transparent',
                     color: isSelected ? 'white' : 'var(--text-primary)'
                   }}
                 >
-                  <div 
+                  <div
                     className="p-2 rounded-lg flex-shrink-0"
                     style={{
                       backgroundColor: isSelected ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 210, 193, 0.1)'
                     }}
                   >
-                    <IconComponent 
-                      size={18} 
+                    <IconComponent
+                      size={18}
                       style={{ color: isSelected ? 'white' : 'var(--accent-teal)' }}
                     />
                   </div>
@@ -120,11 +118,11 @@ export default function AppMenu({ selectedApp, onSelectApp }: AppMenuProps) {
         {/* Bottom Section: Settings & Profile */}
         <div className="px-2 py-3 border-t border-white/40">
           <div className="space-y-1.5">
-            <button 
+            <button
               className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/70 transition-all"
               style={{ color: 'var(--text-primary)' }}
             >
-              <div 
+              <div
                 className="p-2 rounded-lg flex-shrink-0"
                 style={{ backgroundColor: 'rgba(0, 210, 193, 0.1)' }}
               >
@@ -132,11 +130,11 @@ export default function AppMenu({ selectedApp, onSelectApp }: AppMenuProps) {
               </div>
               <span className="text-sm font-semibold">Settings</span>
             </button>
-            <button 
+            <button
               className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/70 transition-all"
               style={{ color: 'var(--text-primary)' }}
             >
-              <div 
+              <div
                 className="p-2 rounded-lg flex-shrink-0"
                 style={{ backgroundColor: 'rgba(0, 210, 193, 0.1)' }}
               >

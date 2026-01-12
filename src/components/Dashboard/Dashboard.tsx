@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AuroraBackground } from '@/components/DesignSystem';
 import { ArrowLeft } from 'lucide-react';
 import AppMenu from './AppMenu';
@@ -8,9 +8,13 @@ import ChatPanel from './ChatPanel';
 import MainDashboard from './MainDashboard';
 import CandidateDashboard from '@/components/Candidates/CandidateDashboard';
 import CandidateFilters, { FilterState } from '@/components/Candidates/CandidateFilters';
+import JobDashboard from '@/components/Jobs/JobDashboard';
+import SchedulerDashboard from '@/components/Scheduler/SchedulerDashboard';
+import PipelineBoard from '@/components/Pipeline/PipelineBoard';
+import { RecruitOSProvider, useRecruitOS, AppType } from '@/context/RecruitOSContext';
 
-export default function Dashboard() {
-  const [selectedApp, setSelectedApp] = useState<string | null>(null);
+function DashboardContent() {
+  const { activeApp, navigateToApp, viewMode } = useRecruitOS();
   const [isChatExpanded, setIsChatExpanded] = useState(false);
   const [rightPanelContent, setRightPanelContent] = useState<React.ReactNode>(null);
   const [candidateFilters, setCandidateFilters] = useState<FilterState>({
@@ -24,34 +28,51 @@ export default function Dashboard() {
   });
 
   const handleSelectApp = (appId: string | null) => {
-    setSelectedApp(appId);
-    setRightPanelContent(null);
+    // Map string IDs to AppType
+    const appMap: Record<string, AppType> = {
+      'candidates': 'CANDIDATES',
+      'job-editor': 'JOBS',
+      'scheduler': 'SCHEDULER',
+      'offers': 'PIPELINE'
+    };
+
+    if (appId && appMap[appId]) {
+      navigateToApp(appMap[appId]);
+    } else {
+      navigateToApp('DASHBOARD');
+    }
   };
 
   const renderAppView = () => {
-    switch (selectedApp) {
-      case 'candidates':
+    switch (activeApp) {
+      case 'CANDIDATES':
         return (
           <CandidateDashboard
-            onClose={() => setSelectedApp(null)}
+            onClose={() => navigateToApp('DASHBOARD')}
             filters={candidateFilters}
             onFiltersChange={setCandidateFilters}
           />
         );
-      case 'job-editor':
-        return <div className="p-8 text-center text-gray-500">Job Editor - Coming Soon</div>;
-      case 'scheduler':
-        return <div className="p-8 text-center text-gray-500">Scheduler - Coming Soon</div>;
-      case 'offers':
-        return <div className="p-8 text-center text-gray-500">Active Pipeline - Coming Soon</div>;
+      case 'JOBS':
+        return (
+          <JobDashboard
+            onCreateJob={() => {
+              setIsChatExpanded(true);
+            }}
+          />
+        );
+      case 'SCHEDULER':
+        return <SchedulerDashboard />;
+      case 'PIPELINE':
+        return <PipelineBoard />;
       default:
-        return null;
+        return null; // Dashboard is handled separately
     }
   };
 
   const renderFilters = () => {
-    switch (selectedApp) {
-      case 'candidates':
+    switch (activeApp) {
+      case 'CANDIDATES':
         return (
           <CandidateFilters
             onFilterChange={setCandidateFilters}
@@ -77,17 +98,17 @@ export default function Dashboard() {
 
   return (
     <AuroraBackground>
-      <div className="flex h-screen">
+      <div className="flex h-screen w-full overflow-hidden">
         {/* Left: App Menu (Collapsible) - Hidden when app is selected */}
-        {!selectedApp ? (
+        {activeApp === 'DASHBOARD' ? (
           <AppMenu
-            selectedApp={selectedApp}
+            selectedApp={null}
             onSelectApp={handleSelectApp}
           />
         ) : (
           // Collapsed menu when app is selected
           <div className="w-16 p-2 flex-shrink-0">
-            <div 
+            <div
               className="h-full backdrop-blur-xl rounded-2xl border p-2 flex flex-col items-center"
               style={{
                 background: 'var(--glass-surface)',
@@ -96,7 +117,7 @@ export default function Dashboard() {
               }}
             >
               <button
-                onClick={() => setSelectedApp(null)}
+                onClick={() => navigateToApp('DASHBOARD')}
                 className="p-2 rounded-md hover:bg-white/50 transition-colors mb-2"
                 title="Back to dashboard"
               >
@@ -107,17 +128,17 @@ export default function Dashboard() {
         )}
 
         {/* Center: Main Content */}
-        <div className="flex-1 flex flex-col min-w-0">
-          {selectedApp ? (
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-0">
+          {activeApp !== 'DASHBOARD' ? (
             <>
               {/* App View with Tabs */}
-              <div 
-                className="flex-1 flex flex-col min-w-0 backdrop-blur-sm"
+              <div
+                className="flex-1 flex flex-col min-w-0 backdrop-blur-sm h-full"
                 style={{ background: 'var(--glass-surface)' }}
               >
                 {/* Tabs */}
-                {selectedApp === 'candidates' && (
-                  <div 
+                {activeApp === 'CANDIDATES' && (
+                  <div
                     className="flex-shrink-0 border-b backdrop-blur-sm"
                     style={{
                       borderColor: 'rgba(255, 255, 255, 0.5)',
@@ -125,19 +146,19 @@ export default function Dashboard() {
                     }}
                   >
                     <div className="flex items-center gap-1 px-4 py-2">
-                      <button 
+                      <button
                         className="px-4 py-2 rounded-lg text-sm font-medium text-white shadow-sm"
                         style={{ backgroundColor: 'var(--primary-brand)' }}
                       >
                         All Candidates
                       </button>
-                      <button 
+                      <button
                         className="px-4 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/50"
                         style={{ color: 'var(--text-secondary)' }}
                       >
                         Shortlisted
                       </button>
-                      <button 
+                      <button
                         className="px-4 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/50"
                         style={{ color: 'var(--text-secondary)' }}
                       >
@@ -148,14 +169,14 @@ export default function Dashboard() {
                 )}
 
                 {/* App Content */}
-                <div className="flex-1 overflow-y-auto min-h-0">
+                <div className="flex-1 overflow-y-auto min-h-0 pb-32">
                   {renderAppView()}
                 </div>
               </div>
 
               {/* Right: Filters Panel (only for candidates) */}
               {renderFilters() && (
-                <div 
+                <div
                   className="w-80 flex-shrink-0 border-l backdrop-blur-sm"
                   style={{
                     borderColor: 'rgba(255, 255, 255, 0.5)',
@@ -181,5 +202,13 @@ export default function Dashboard() {
         />
       </div>
     </AuroraBackground>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <RecruitOSProvider>
+      <DashboardContent />
+    </RecruitOSProvider>
   );
 }

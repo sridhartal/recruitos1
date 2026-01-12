@@ -21,15 +21,15 @@ interface CandidateWithDetails extends Candidate {
   stage: Stage;
 }
 
-export default function CandidateDashboard({ 
-  onClose, 
+export default function CandidateDashboard({
+  onClose,
   filters: externalFilters,
-  onFiltersChange 
+  onFiltersChange
 }: CandidateDashboardProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortField, setSortField] = useState<SortField>('fitmentScore');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
-  
+
   // Use external filters if provided, otherwise use internal state
   const [internalFilters, setInternalFilters] = useState<FilterState>({
     stage: 'all',
@@ -45,7 +45,7 @@ export default function CandidateDashboard({
 
   // Mock data - in real app, this would come from API
   const [allCandidates, setAllCandidates] = useState<Candidate[]>([]);
-  
+
   // Fetch candidates on mount
   useEffect(() => {
     fetch('/api/mock-data/candidates')
@@ -56,12 +56,12 @@ export default function CandidateDashboard({
       })
       .catch(err => console.error('Error fetching candidates:', err));
   }, []);
-  
+
   // Transform candidates with additional fields
   const candidatesWithDetails: CandidateWithDetails[] = useMemo(() => {
     const positions = ['Senior Python Developer', 'Full Stack Engineer', 'Frontend Developer', 'Backend Engineer', 'DevOps Engineer'];
     const stages: Stage[] = ['Applied', 'Screening', 'Interview', 'Offer', 'Hired', 'Rejected'];
-    
+
     return allCandidates.map((candidate, index) => ({
       ...candidate,
       positionApplied: positions[index % positions.length],
@@ -80,15 +80,15 @@ export default function CandidateDashboard({
 
       // Advanced filters
       const matchesStage = filters.stage === 'all' || candidate.stage === filters.stage;
-      const matchesScore = candidate.fitmentScore >= filters.minScore && 
+      const matchesScore = candidate.fitmentScore >= filters.minScore &&
         candidate.fitmentScore <= filters.maxScore;
-      const matchesSkills = filters.skills.length === 0 || 
-        filters.skills.some(skill => 
+      const matchesSkills = filters.skills.length === 0 ||
+        filters.skills.some(skill =>
           candidate.skills.some(cSkill => cSkill.toLowerCase().includes(skill.toLowerCase()))
         );
-      const matchesLocation = !filters.location || 
+      const matchesLocation = !filters.location ||
         candidate.location.toLowerCase().includes(filters.location.toLowerCase());
-      const matchesExperience = candidate.experience >= filters.experienceMin && 
+      const matchesExperience = candidate.experience >= filters.experienceMin &&
         candidate.experience <= filters.experienceMax;
 
       return matchesSearch && matchesStage && matchesScore && matchesSkills && matchesLocation && matchesExperience;
@@ -215,7 +215,7 @@ export default function CandidateDashboard({
             }}
             onFocus={(e) => {
               e.target.style.borderColor = 'var(--primary-brand)';
-              e.target.style.ringColor = 'var(--primary-brand)';
+              e.target.style.setProperty('--tw-ring-color', 'var(--primary-brand)');
             }}
             onBlur={(e) => {
               e.target.style.borderColor = 'rgba(255, 255, 255, 0.5)';
@@ -226,7 +226,7 @@ export default function CandidateDashboard({
 
       {/* Table */}
       <div className="flex-1 overflow-y-auto px-4 pb-4 min-h-0">
-        <div 
+        <div
           className="backdrop-blur-xl rounded-2xl overflow-hidden"
           style={{
             background: 'var(--glass-surface)',
@@ -311,32 +311,32 @@ export default function CandidateDashboard({
                 </tr>
               ) : (
                 filteredAndSortedCandidates.map((candidate) => (
-                <tr
-                  key={candidate.id}
-                  className="border-b hover:bg-white/30 transition-colors"
-                  style={{ borderColor: 'rgba(255, 255, 255, 0.2)' }}
-                >
-                  <td className="py-3 px-4">
-                    <div>
-                      <p className="text-xs font-medium" style={{ color: 'var(--text-primary)' }}>{candidate.name}</p>
-                      <p className="text-[10px] flex items-center gap-1 mt-0.5" style={{ color: 'var(--text-secondary)' }}>
-                        <Phone size={10} />
-                        {candidate.phone}
-                      </p>
-                    </div>
-                  </td>
-                  <td className="py-3 px-4">
-                    <div className="flex items-center gap-1.5">
-                      <Mail size={12} style={{ color: 'var(--text-secondary)' }} />
-                      <span className="text-xs" style={{ color: 'var(--text-primary)' }}>{candidate.email}</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-4">
-                    <div className="flex items-center gap-1.5">
-                      <Briefcase size={12} style={{ color: 'var(--text-secondary)' }} />
-                      <span className="text-xs" style={{ color: 'var(--text-primary)' }}>{candidate.positionApplied}</span>
-                    </div>
-                  </td>
+                  <tr
+                    key={candidate.id}
+                    className="border-b hover:bg-white/30 transition-colors"
+                    style={{ borderColor: 'rgba(255, 255, 255, 0.2)' }}
+                  >
+                    <td className="py-3 px-4">
+                      <div>
+                        <p className="text-xs font-medium" style={{ color: 'var(--text-primary)' }}>{candidate.name}</p>
+                        <p className="text-[10px] flex items-center gap-1 mt-0.5" style={{ color: 'var(--text-secondary)' }}>
+                          <Phone size={10} />
+                          {candidate.phone}
+                        </p>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4">
+                      <div className="flex items-center gap-1.5">
+                        <Mail size={12} style={{ color: 'var(--text-secondary)' }} />
+                        <span className="text-xs" style={{ color: 'var(--text-primary)' }}>{candidate.email}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4">
+                      <div className="flex items-center gap-1.5">
+                        <Briefcase size={12} style={{ color: 'var(--text-secondary)' }} />
+                        <span className="text-xs" style={{ color: 'var(--text-primary)' }}>{candidate.positionApplied}</span>
+                      </div>
+                    </td>
                     <td className="py-3 px-4">
                       <span
                         className={`inline-flex items-center justify-center px-2 py-0.5 rounded-full text-[10px] font-semibold ${getScoreColor(

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mockDataService } from '@/services/mockDataService';
 import { matchCandidates } from '@/services/candidateMatchingService';
-import { JobDescription } from '@/components/JobEditor/JobEditorCard';
+import { JobDescription } from '@/types/job';
 
 // Pre-generated external candidates (simulated web scraping results)
 const externalCandidates = [

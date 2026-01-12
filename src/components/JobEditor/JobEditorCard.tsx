@@ -3,15 +3,7 @@
 import { useState } from 'react';
 import { GlassCard, PrimaryButton } from '@/components/DesignSystem';
 import { Edit2, Save, X, Send, Users } from 'lucide-react';
-
-export interface JobDescription {
-  title: string;
-  skills: string[];
-  seniority: string;
-  salary?: string;
-  location?: string;
-  experience?: string;
-}
+import { JobDescription } from '@/types/job';
 
 interface JobEditorCardProps {
   jobDescription: JobDescription;
@@ -21,8 +13,8 @@ interface JobEditorCardProps {
   onMatchCandidates?: (job: JobDescription) => Promise<void>;
 }
 
-export default function JobEditorCard({ 
-  jobDescription: initialJob, 
+export default function JobEditorCard({
+  jobDescription: initialJob,
   onSave,
   onCancel,
   onPost,

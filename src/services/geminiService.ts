@@ -4,14 +4,7 @@ const apiKey = process.env.GEMINI_API_KEY || 'AIzaSyC2cSWLgY3_CoheXRTvS1Sx1WIME9
 
 const genAI = new GoogleGenerativeAI(apiKey);
 
-export interface JobDescription {
-  title: string;
-  skills: string[];
-  seniority: string;
-  salary?: string;
-  location?: string;
-  experience?: string;
-}
+import { JobDescription } from '@/types/job';
 
 export class GeminiService {
   async extractJobDescription(text: string): Promise<JobDescription> {
@@ -20,11 +13,11 @@ export class GeminiService {
       const mockTitles = ['Senior Python Developer', 'Full Stack Engineer', 'Frontend Developer', 'Backend Engineer'];
       const mockSkills = ['Python', 'Django', 'PostgreSQL', 'React', 'TypeScript', 'Node.js', 'MongoDB', 'AWS'];
       const mockSeniority = ['Junior', 'Mid', 'Senior'];
-      
+
       // Simple keyword extraction simulation
       const lowerText = text.toLowerCase();
       const extractedSkills = mockSkills.filter(skill => lowerText.includes(skill.toLowerCase()));
-      
+
       return {
         title: mockTitles[Math.floor(Math.random() * mockTitles.length)],
         skills: extractedSkills.length > 0 ? extractedSkills : ['Python', 'Django'],
@@ -62,13 +55,13 @@ Return ONLY a valid JSON object in this exact format (no markdown, no code block
 If information is not available, omit that field or use null.`;
 
       const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-      
+
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const content = response.text();
-      
+
       let jobDescription;
-      
+
       try {
         // Try to parse JSON directly
         jobDescription = JSON.parse(content);
@@ -81,7 +74,7 @@ If information is not available, omit that field or use null.`;
           throw new Error('Could not parse JSON response');
         }
       }
-      
+
       return {
         title: jobDescription.title || 'Software Engineer',
         skills: Array.isArray(jobDescription.skills) ? jobDescription.skills : [],

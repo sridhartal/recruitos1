@@ -1,5 +1,5 @@
 import { Candidate } from './mockDataService';
-import { JobDescription } from '@/components/JobEditor/JobEditorCard';
+import { JobDescription } from '@/types/job';
 
 export interface MatchedCandidate extends Candidate {
   matchScore: number;

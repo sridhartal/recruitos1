@@ -11,7 +11,7 @@ interface SidebarProps {
 interface AppItem {
   id: string;
   name: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: React.ComponentType<{ size?: number | string; className?: string; style?: React.CSSProperties }>;
 }
 
 export default function Sidebar({ selectedApp, onSelectApp }: SidebarProps) {
@@ -29,7 +29,7 @@ export default function Sidebar({ selectedApp, onSelectApp }: SidebarProps) {
           <h1 className="text-lg font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>1WrkOS</h1>
           <p className="text-xs mt-0.5 leading-tight" style={{ color: 'var(--text-secondary)' }}>AI Recruiter Workbench</p>
         </div>
-        
+
         <nav className="flex-1 px-2 py-2 overflow-y-auto">
           <div>
             <h2 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5 px-2">
@@ -43,14 +43,13 @@ export default function Sidebar({ selectedApp, onSelectApp }: SidebarProps) {
                   <li key={app.id}>
                     <button
                       onClick={() => onSelectApp(app.id)}
-                      className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-md transition-all duration-200 ${
-                        isSelected
+                      className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-md transition-all duration-200 ${isSelected
                           ? 'bg-[#1A1A1A] text-white shadow-sm'
                           : 'text-gray-600 hover:bg-white/50 hover:text-gray-900'
-                      }`}
+                        }`}
                     >
-                      <IconComponent 
-                        size={16} 
+                      <IconComponent
+                        size={16}
                         className={`flex-shrink-0 ${isSelected ? 'text-white' : 'text-gray-500'}`}
                       />
                       <span className="text-xs font-medium">{app.name}</span>
@@ -61,7 +60,7 @@ export default function Sidebar({ selectedApp, onSelectApp }: SidebarProps) {
             </ul>
           </div>
         </nav>
-        
+
         <div className="px-2 py-2 border-t border-white/40">
           <div className="text-[10px] text-gray-500">
             <p className="font-medium">v0.1.0</p>

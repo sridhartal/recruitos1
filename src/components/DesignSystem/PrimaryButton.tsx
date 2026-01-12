@@ -3,7 +3,7 @@ import React from 'react';
 interface PrimaryButtonProps {
   label: string;
   onClick?: () => void;
-  icon?: React.ComponentType<{ size?: number; className?: string }>;
+  icon?: React.ComponentType<{ size?: number | string; className?: string }>;
   className?: string;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
@@ -13,15 +13,15 @@ interface PrimaryButtonProps {
  * Primary Button
  * High contrast, pill-shaped action button.
  */
-export const PrimaryButton = ({ 
-  label, 
-  onClick, 
+export const PrimaryButton = ({
+  label,
+  onClick,
   icon: Icon,
   className = '',
   type = 'button',
   disabled = false
 }: PrimaryButtonProps) => (
-  <button 
+  <button
     type={type}
     onClick={onClick}
     disabled={disabled}

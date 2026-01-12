@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mockDataService } from '@/services/mockDataService';
 import { matchCandidates } from '@/services/candidateMatchingService';
-import { JobDescription } from '@/components/JobEditor/JobEditorCard';
+import { JobDescription } from '@/types/job';
 
 export async function POST(request: NextRequest) {
   try {

@@ -3,7 +3,8 @@
 import { useState, useRef } from 'react';
 import { GlassCard, PillInput, ToastContainer, useToast } from '@/components/DesignSystem';
 import { Upload, FileText, Loader2, Users, FolderKanban, BarChart3 } from 'lucide-react';
-import JobEditorCard, { JobDescription } from '@/components/JobEditor/JobEditorCard';
+import JobEditorCard from '@/components/JobEditor/JobEditorCard';
+import { JobDescription } from '@/types/job';
 import { CandidateList } from '@/components/Candidates';
 import { MatchedCandidate } from '@/services/candidateMatchingService';
 
@@ -96,7 +97,7 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
       const jobDescription: JobDescription = parseData.jobDescription;
 
       // Update processing message
-      setMessages((prev) => prev.map(msg => 
+      setMessages((prev) => prev.map(msg =>
         msg.id === processingMessage.id
           ? { ...msg, content: 'Job description extracted successfully! Check the right panel to review and edit.' }
           : msg
@@ -124,7 +125,7 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
       );
     } catch (error) {
       console.error('Error processing file:', error);
-      setMessages((prev) => prev.map(msg => 
+      setMessages((prev) => prev.map(msg =>
         msg.id === processingMessage.id
           ? { ...msg, content: 'Sorry, I encountered an error processing the file. Please try again.' }
           : msg
@@ -150,7 +151,7 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
     const lowerInput = userInput.toLowerCase();
     if (lowerInput.includes('create') || lowerInput.includes('job') || lowerInput.includes('hire')) {
       setIsProcessing(true);
-      
+
       // Add processing message
       const processingMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -175,7 +176,7 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
           const jobDescription: JobDescription = parseData.jobDescription;
 
           // Update processing message
-          setMessages((prev) => prev.map(msg => 
+          setMessages((prev) => prev.map(msg =>
             msg.id === processingMessage.id
               ? { ...msg, content: 'Job description extracted! Check the right panel to review and edit.' }
               : msg
@@ -206,7 +207,7 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
         }
       } catch (error) {
         console.error('Error parsing job:', error);
-        setMessages((prev) => prev.map(msg => 
+        setMessages((prev) => prev.map(msg =>
           msg.id === processingMessage.id
             ? { ...msg, content: 'I understand. Let me help you with that. You can upload a conversation file or describe the job requirements in more detail.' }
             : msg
@@ -254,7 +255,7 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
 
   const handlePostJob = async (job: JobDescription) => {
     const loadingToastId = loading('Posting job to job boards...');
-    
+
     try {
       const response = await fetch('/api/post-job', {
         method: 'POST',
@@ -278,7 +279,7 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
         const successCount = data.summary.successful;
         const totalCount = data.summary.total;
         success(`Job posted successfully to ${successCount} out of ${totalCount} job boards!`);
-        
+
         setMessages((prev) => [...prev, {
           id: Date.now().toString(),
           role: 'assistant',
@@ -297,7 +298,7 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
 
   const handleMatchCandidates = async (job: JobDescription) => {
     const loadingToastId = loading('Matching candidates from internal database...');
-    
+
     try {
       const response = await fetch('/api/match-candidates', {
         method: 'POST',
@@ -426,189 +427,189 @@ export default function ChatWindow({ onUpdateRightPanel }: ChatWindowProps) {
     <>
       <ToastContainer toasts={toasts} onClose={removeToast} />
       <div className="flex-1 flex flex-col min-w-0 w-full">
-      {/* Chat Header */}
-      <div className="p-4 pb-2 flex-shrink-0">
-        <GlassCard className="p-3">
-          <h2 className="text-base font-semibold leading-tight" style={{ color: 'var(--text-primary)' }}>
-            Ask 1WrkOS
-          </h2>
-        </GlassCard>
-      </div>
+        {/* Chat Header */}
+        <div className="p-4 pb-2 flex-shrink-0">
+          <GlassCard className="p-3">
+            <h2 className="text-base font-semibold leading-tight" style={{ color: 'var(--text-primary)' }}>
+              Ask 1WrkOS
+            </h2>
+          </GlassCard>
+        </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 space-y-2 pb-2 min-h-0 relative z-10">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} relative z-10`}
-          >
-            <div 
-              className="max-w-[75%] p-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.05)] transition-all duration-300"
-              style={{
-                backgroundColor: message.role === 'user' ? 'var(--primary-brand)' : 'var(--glass-surface)',
-                color: message.role === 'user' ? 'white' : 'var(--text-primary)',
-                border: message.role === 'user' ? 'none' : 'var(--glass-border)',
-                backdropFilter: message.role === 'user' ? 'none' : 'var(--glass-blur)'
-              }}
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto px-4 space-y-2 pb-2 min-h-0 relative z-10">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} relative z-10`}
             >
-              <p className="text-xs leading-relaxed">
-                {message.content}
-              </p>
-              <p 
-                className="text-[10px] opacity-70 mt-1.5"
-                style={{ 
-                  color: message.role === 'user' ? 'rgba(255,255,255,0.7)' : 'var(--text-secondary)' 
+              <div
+                className="max-w-[75%] p-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.05)] transition-all duration-300"
+                style={{
+                  backgroundColor: message.role === 'user' ? 'var(--primary-brand)' : 'var(--glass-surface)',
+                  color: message.role === 'user' ? 'white' : 'var(--text-primary)',
+                  border: message.role === 'user' ? 'none' : 'var(--glass-border)',
+                  backdropFilter: message.role === 'user' ? 'none' : 'var(--glass-blur)'
                 }}
               >
-                {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </p>
+                <p className="text-xs leading-relaxed">
+                  {message.content}
+                </p>
+                <p
+                  className="text-[10px] opacity-70 mt-1.5"
+                  style={{
+                    color: message.role === 'user' ? 'rgba(255,255,255,0.7)' : 'var(--text-secondary)'
+                  }}
+                >
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Quick Access CTAs */}
+        {messages.length <= 1 && (
+          <div className="px-4 pb-2 flex-shrink-0">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={async () => {
+                  const query = 'Find top candidates for my open positions';
+                  const userMessage: Message = {
+                    id: Date.now().toString(),
+                    role: 'user',
+                    content: query,
+                    timestamp: new Date(),
+                  };
+                  setMessages((prev) => [...prev, userMessage]);
+                  await processUserMessage(query);
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all hover:shadow-sm"
+                style={{
+                  background: 'var(--glass-surface)',
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  color: 'var(--text-primary)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--glass-surface)';
+                }}
+              >
+                <Users size={14} className="flex-shrink-0" />
+                <span>Find Candidates</span>
+              </button>
+              <button
+                onClick={async () => {
+                  const query = 'Show me my recruitment pipeline';
+                  const userMessage: Message = {
+                    id: Date.now().toString(),
+                    role: 'user',
+                    content: query,
+                    timestamp: new Date(),
+                  };
+                  setMessages((prev) => [...prev, userMessage]);
+                  await processUserMessage(query);
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all hover:shadow-sm"
+                style={{
+                  background: 'var(--glass-surface)',
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  color: 'var(--text-primary)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--glass-surface)';
+                }}
+              >
+                <FolderKanban size={14} className="flex-shrink-0" />
+                <span>Pipeline</span>
+              </button>
+              <button
+                onClick={async () => {
+                  const query = 'Show recruitment insights and analytics';
+                  const userMessage: Message = {
+                    id: Date.now().toString(),
+                    role: 'user',
+                    content: query,
+                    timestamp: new Date(),
+                  };
+                  setMessages((prev) => [...prev, userMessage]);
+                  await processUserMessage(query);
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all hover:shadow-sm"
+                style={{
+                  background: 'var(--glass-surface)',
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  color: 'var(--text-primary)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'var(--glass-surface)';
+                }}
+              >
+                <BarChart3 size={14} className="flex-shrink-0" />
+                <span>Insights</span>
+              </button>
             </div>
           </div>
-        ))}
-      </div>
-
-      {/* Quick Access CTAs */}
-      {messages.length <= 1 && (
-        <div className="px-4 pb-2 flex-shrink-0">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={async () => {
-                const query = 'Find top candidates for my open positions';
-                const userMessage: Message = {
-                  id: Date.now().toString(),
-                  role: 'user',
-                  content: query,
-                  timestamp: new Date(),
-                };
-                setMessages((prev) => [...prev, userMessage]);
-                await processUserMessage(query);
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all hover:shadow-sm"
-              style={{
-                background: 'var(--glass-surface)',
-                borderColor: 'rgba(255, 255, 255, 0.5)',
-                color: 'var(--text-primary)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'var(--glass-surface)';
-              }}
-            >
-              <Users size={14} className="flex-shrink-0" />
-              <span>Find Candidates</span>
-            </button>
-            <button
-              onClick={async () => {
-                const query = 'Show me my recruitment pipeline';
-                const userMessage: Message = {
-                  id: Date.now().toString(),
-                  role: 'user',
-                  content: query,
-                  timestamp: new Date(),
-                };
-                setMessages((prev) => [...prev, userMessage]);
-                await processUserMessage(query);
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all hover:shadow-sm"
-              style={{
-                background: 'var(--glass-surface)',
-                borderColor: 'rgba(255, 255, 255, 0.5)',
-                color: 'var(--text-primary)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'var(--glass-surface)';
-              }}
-            >
-              <FolderKanban size={14} className="flex-shrink-0" />
-              <span>Pipeline</span>
-            </button>
-            <button
-              onClick={async () => {
-                const query = 'Show recruitment insights and analytics';
-                const userMessage: Message = {
-                  id: Date.now().toString(),
-                  role: 'user',
-                  content: query,
-                  timestamp: new Date(),
-                };
-                setMessages((prev) => [...prev, userMessage]);
-                await processUserMessage(query);
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all hover:shadow-sm"
-              style={{
-                background: 'var(--glass-surface)',
-                borderColor: 'rgba(255, 255, 255, 0.5)',
-                color: 'var(--text-primary)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'var(--glass-surface)';
-              }}
-            >
-              <BarChart3 size={14} className="flex-shrink-0" />
-              <span>Insights</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Input Area */}
-      <div className="p-4 pt-2 flex-shrink-0">
-        <div className="flex items-end gap-2.5">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".txt"
-            onChange={handleFileInputChange}
-            className="hidden"
-            id="file-upload"
-          />
-          <label
-            htmlFor="file-upload"
-            className="flex items-center justify-center w-10 h-10 rounded-full shadow-sm border cursor-pointer transition-all hover:shadow-md flex-shrink-0"
-            style={{
-              background: 'var(--glass-surface)',
-              borderColor: 'rgba(255, 255, 255, 0.5)'
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'var(--glass-surface)'}
-            title="Upload .txt file"
-          >
-            {isProcessing ? (
-              <Loader2 size={16} style={{ color: 'var(--text-secondary)' }} className="animate-spin" />
-            ) : (
-              <Upload size={16} style={{ color: 'var(--text-secondary)' }} />
-            )}
-          </label>
-          <div className="flex-1 min-w-0">
-            <PillInput
-              placeholder="Type your message or upload a file..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              onSearchClick={handleSend}
-              icon="send"
-              className="w-full"
-              disabled={isProcessing}
-            />
-          </div>
-        </div>
-        
-        {messages.some(msg => msg.file) && (
-          <div className="mt-2.5 flex items-center gap-2 text-xs text-gray-500 px-1">
-            <FileText size={14} className="flex-shrink-0" />
-            <span className="truncate">File uploaded: {messages.find(msg => msg.file)?.file?.name}</span>
-          </div>
         )}
+
+        {/* Input Area */}
+        <div className="p-4 pt-2 flex-shrink-0">
+          <div className="flex items-end gap-2.5">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".txt"
+              onChange={handleFileInputChange}
+              className="hidden"
+              id="file-upload"
+            />
+            <label
+              htmlFor="file-upload"
+              className="flex items-center justify-center w-10 h-10 rounded-full shadow-sm border cursor-pointer transition-all hover:shadow-md flex-shrink-0"
+              style={{
+                background: 'var(--glass-surface)',
+                borderColor: 'rgba(255, 255, 255, 0.5)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'var(--glass-surface)'}
+              title="Upload .txt file"
+            >
+              {isProcessing ? (
+                <Loader2 size={16} style={{ color: 'var(--text-secondary)' }} className="animate-spin" />
+              ) : (
+                <Upload size={16} style={{ color: 'var(--text-secondary)' }} />
+              )}
+            </label>
+            <div className="flex-1 min-w-0">
+              <PillInput
+                placeholder="Type your message or upload a file..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                onSearchClick={handleSend}
+                icon="send"
+                className="w-full"
+                disabled={isProcessing}
+              />
+            </div>
+          </div>
+
+          {messages.some(msg => msg.file) && (
+            <div className="mt-2.5 flex items-center gap-2 text-xs text-gray-500 px-1">
+              <FileText size={14} className="flex-shrink-0" />
+              <span className="truncate">File uploaded: {messages.find(msg => msg.file)?.file?.name}</span>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </>
   );
 }
